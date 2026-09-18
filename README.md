@@ -1,6 +1,6 @@
-# Random variate gen
+# Random variate gen lab
 
-Este proyecto en Java implementa generadores de variables aleatorias y distribuciones de probabilidad (como la distribución Exponencial), ideal para simulación de sistemas y modelado estadístico.
+Este proyecto, con fines educativos, implementa generadores de variables aleatorias.
 
 ## 🚀 Comenzando
 
@@ -14,8 +14,8 @@ No necesitás tener Maven instalado en tu sistema global para correr este proyec
 
 1. Cloná este repositorio:
    ```bash
-   git clone https://github.com/dglabella/random-variate-gen.git
-   cd random-variate-gen
+   git clone https://github.com/dglabella/random-variate-gen-lab.git
+   cd random-variate-gen-lab
    ```
 
 2. Compilá el proyecto usando el Wrapper:
