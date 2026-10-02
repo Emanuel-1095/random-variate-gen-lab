@@ -26,7 +26,12 @@ public final class Uniform implements Distribution<Double> {
    * @throws IllegalArgumentException if {@code a} is greater than or equal to {@code b}
    */
   public Uniform(double a, double b) {
-    throw new UnsupportedOperationException("Unimplemented constructor 'Uniform'");
+    if (a >= b) {
+      throw new IllegalArgumentException("Lower bound 'a' must be less than upper bound 'b'");
+    }
+    this.a = a;
+    this.b = b;
+    this.randomGenerator = new java.util.Random();
   }
 
   /**
@@ -39,11 +44,20 @@ public final class Uniform implements Distribution<Double> {
    * @throws NullPointerException if {@code randomGenerator} is {@code null}
    */
   public Uniform(double a, double b, RandomGenerator randomGenerator) {
-    throw new UnsupportedOperationException("Unimplemented constructor 'Uniform'");
+    if (randomGenerator == null) {
+      throw new NullPointerException("Random generator cannot be null");
+    }
+    if (a >= b) {
+      throw new IllegalArgumentException("Lower bound 'a' must be less than upper bound 'b'");
+    }
+
+    this.a = a;
+    this.b = b;
+    this.randomGenerator = randomGenerator;
   }
 
   @Override
   public Double sample() {
-    throw new UnsupportedOperationException("Unimplemented method 'sample'");
+    return a + (b - a) * randomGenerator.nextDouble();
   }
 }
