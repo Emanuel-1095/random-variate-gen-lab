@@ -25,7 +25,12 @@ public final class Exponential implements Distribution<Double> {
    * @throws IllegalArgumentException if {@code lambda} is less than or equal to zero
    */
   public Exponential(double lambda) {
-    throw new UnsupportedOperationException("Unimplemented constructor 'Exponential'");
+    if (lambda <= 0) {
+      throw new IllegalArgumentException("Rate parameter 'lambda' must be greater than zero");
+    }
+
+    this.lambda = lambda;
+    this.randomGenerator = RandomGenerator.getDefault();
   }
 
   /**
@@ -40,11 +45,20 @@ public final class Exponential implements Distribution<Double> {
    * @throws NullPointerException if {@code randomGenerator} is {@code null}
    */
   public Exponential(double lambda, RandomGenerator randomGenerator) {
-    throw new UnsupportedOperationException("Unimplemented constructor 'Exponential'");
+    if (randomGenerator == null) {
+      throw new NullPointerException("Random generator cannot be null");
+    }
+    if (lambda <= 0) {
+      throw new IllegalArgumentException("Rate parameter 'lambda' must be greater than zero");
+    }
+
+    this.lambda = lambda;
+    this.randomGenerator = randomGenerator;
   }
 
   @Override
   public Double sample() {
-    throw new UnsupportedOperationException("Unimplemented method 'sample'");
+    double u = randomGenerator.nextDouble();
+    return -Math.log(1 - u) / lambda;
   }
 }

@@ -26,7 +26,13 @@ public final class Normal implements Distribution<Double> {
    * @throws IllegalArgumentException if {@code stdDev} is less than or equal to zero
    */
   public Normal(double mean, double stdDev) {
-    throw new UnsupportedOperationException("Unimplemented constructor 'Normal'");
+    if (stdDev <= 0) {
+      throw new IllegalArgumentException("Rate parameter 'stdDev' must be greater than zero");
+    }
+
+    this.mean = mean;
+    this.standardDeviation = stdDev;
+    this.randomGenerator = RandomGenerator.getDefault();
   }
 
   /**
@@ -39,11 +45,21 @@ public final class Normal implements Distribution<Double> {
    * @throws NullPointerException if {@code randomGenerator} is {@code null}
    */
   public Normal(double mean, double stdDev, RandomGenerator randomGenerator) {
-    throw new UnsupportedOperationException("Unimplemented constructor 'Normal'");
-  }
+    if (randomGenerator == null) {
+      throw new NullPointerException("Random generator cannot be null");
+    }
+    if (stdDev <= 0) {
+      throw new IllegalArgumentException("Rate parameter 'stdDev' must be greater than zero");
+    }
+    
+    this.mean = mean;
+    this.standardDeviation = stdDev;
+    this.randomGenerator = randomGenerator;
 
+  }
+  // Consultar sobre la implementación
   @Override
   public Double sample() {
-    throw new UnsupportedOperationException("Unimplemented method 'sample'");
+    return mean + standardDeviation * randomGenerator.nextGaussian();
   }
 }

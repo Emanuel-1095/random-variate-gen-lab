@@ -34,8 +34,37 @@ public final class Discrete<T> implements Distribution<T> {
    * @throws IllegalArgumentException if {@code table} is empty or contains
    *                                  invalid probabilities
    */
+
+
+  private void isInvalid(Map<T, Double> table){
+
+    if (table == null) {
+      throw new NullPointerException("Table cannot be null");
+    }
+    if (table.isEmpty()) {
+      throw new IllegalArgumentException("Table cannot be empty");
+    }
+
+    double acum = 0.0;
+    
+    for (Map.Entry<T, Double> entry : table.entrySet()) {
+      double probability = entry.getValue();
+      if (probability < 0.0) {
+        throw new IllegalArgumentException("Probabilities must be non-negative");
+      }
+      acum += probability;
+    }
+    
+    if (acum != 1.0){
+      throw new IllegalArgumentException("Probabilities must sum to one");
+    }
+  }
+
   public Discrete(Map<T, Double> table) {
-    throw new UnsupportedOperationException("Unimplemented constructor 'Discrete'");
+    this.isInvalid(table);
+
+    this.table = table;
+    this.randomGenerator = RandomGenerator.getDefault();
   }
 
   /**
@@ -54,11 +83,23 @@ public final class Discrete<T> implements Distribution<T> {
    *                                  invalid probabilities
    */
   public Discrete(Map<T, Double> table, RandomGenerator randomGenerator) {
-    throw new UnsupportedOperationException("Unimplemented constructor 'Discrete'");
+    this.isInvalid(table);
+    
+    this.table = table;
+    this.randomGenerator = randomGenerator;
   }
 
   @Override
   public T sample() {
-    throw new UnsupportedOperationException("Unimplemented method 'sample'");
+    double randomValue = randomGenerator.nextDouble();
+    double acum = 0.0;
+    for (Map.Entry<T, Double> entry : table.entrySet()) {
+      double probability = entry.getValue();
+      acum += probability;
+      if (randomValue < acum) {
+        return entry.getKey();
+      }
+    }
+    throw new IllegalArgumentException("Probabilities must sum to one");
   }
 }
