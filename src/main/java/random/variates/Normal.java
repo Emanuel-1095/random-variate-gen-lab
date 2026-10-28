@@ -60,6 +60,22 @@ public final class Normal implements Distribution<Double> {
   // Consultar sobre la implementación
   @Override
   public Double sample() {
-    return mean + standardDeviation * randomGenerator.nextGaussian();
+    double sum = 0.0;
+    int a = 0, b = 1, N = 12;
+    Uniform uniform = new Uniform(a, b, randomGenerator);
+
+    for (int i = 0; i < N; i++) {
+      sum += uniform.sample();
+    }
+
+    double mu = 6.0;                  // ((a+b)/2)*N
+    double var = 1.0;                 // N*((b-a)^2/12)
+    double desv = Math.sqrt(var);     // var^(1/2)
+
+    double bigZ = (sum - mu) / desv;
+
+    return mean + standardDeviation * bigZ;
+
+    //return mean + standardDeviation * randomGenerator.nextGaussian();
   }
 }
